@@ -10,26 +10,33 @@ export const fetchFoodItem = createAsyncThunk(
     const response = await axios.get(
       `https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${appKey}&nutrition-type=logging&ingr=${enteredFoodItem}`
     );
-    console.log(response.data);
+    const data = response.data;
+    console.log(data);
+    return [
+      {
+        Quantity: data.ingredients[0]["parsed"][0].quantity,
+        Item: enteredFoodItem[0].toUpperCase() + enteredFoodItem.slice(1),
+        Calories: data.calories,
+        Carbohydrates: data.totalNutrients.CHOCDF.quantity.toFixed(0),
+        Fat: data.totalNutrients.FAT.quantity.toFixed(0),
+        Protein: data.totalNutrients.PROCNT.quantity.toFixed(0),
+      },
+    ];
   }
 );
 
 const foodSlice = createSlice({
   name: "food",
   initialState: {
-    enteredFoodItem: "",
-    food: [],
     log: [],
     status: "idle",
     error: null,
   },
   reducers: {
     setEnteredFoodItem: (state, action) => {
-      state.enteredFoodItem = action.payload;
       state.log.push(action.payload);
     },
   },
-
   extraReducers(builder) {
     builder
       .addCase(fetchFoodItem.pending, (state, action) => {

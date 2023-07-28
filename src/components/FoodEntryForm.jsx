@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchFoodItem } from "../features/foodItemSlice";
 
 const FoodEntryForm = () => {
   const [enteredFoodItem, setEnteredFoodItem] = useState("");
+
   const dispatch = useDispatch();
+  const food = useSelector((state) => state.food);
+
+  console.log(food);
 
   const handleSubmit = (e) => {
     e.preventDefault();
