@@ -51,7 +51,7 @@ const foodSlice = createSlice({
       })
       .addCase(fetchFoodItem.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.foodLog = action.payload;
+        state.foodLog.push(action.payload[0]);
       })
       .addCase(fetchFoodItem.rejected, (state, action) => {
         state.status = "failed";

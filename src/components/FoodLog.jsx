@@ -1,44 +1,33 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFoodItem, removeFromFoodLog } from "../features/foodItemSlice";
+import { fetchFoodItem } from "../features/foodItemSlice";
+import FoodEntry from "./FoodEntry";
+import { Link } from "react-router-dom";
 
 const FoodLog = () => {
   const dispatch = useDispatch();
-  const foodEntries = useSelector((state) => state.food.foodLog);
   const status = useSelector((state) => state.food.status);
   const [searchBegan, setSearchBegan] = useState("false");
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === "idle" && searchBegan) {
       dispatch(fetchFoodItem());
     }
-  }, [status, dispatch]);
+  }, [status, dispatch, searchBegan]);
 
-  if (status === "loading") {
+  if (status === "loading" && searchBegan) {
     return <h1>Loading...</h1>;
-  } else if (status === "failed") {
-    return <h1>Error loading food entry. Please try again.</h1>;
+  } else if (status === "failed" && !searchBegan) {
+    return <h4>Error loading food entry. Please try again.</h4>;
   }
-
-  console.log(foodEntries);
 
   return (
     <div>
       <h1>FoodLog</h1>
-      <div>
-        {foodEntries.map((entry) => (
-          <div key={entry.id}>
-            <h3>{entry.item}</h3>
-            <p>Calories: {entry.calories} kcal</p>
-            <p>Carbohydrates: {entry.carbohydrates} gram(s)</p>
-            <p>Fat: {entry.fat} gram(s)</p>
-            <p>Protein: {entry.protein} gram(s)</p>
-            <button onClick={() => dispatch(removeFromFoodLog(entry))}>
-              Remove
-            </button>
-          </div>
-        ))}
-      </div>
+      <FoodEntry />
+      <Link to="/foodentryform">
+        <h2>Go to Food Entry Form</h2>
+      </Link>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchFoodItem, addToFoodLog } from "../features/foodItemSlice";
+import { fetchFoodItem } from "../features/foodItemSlice";
+import { Link } from "react-router-dom";
 
 const FoodEntryForm = () => {
   const [enteredFoodItem, setEnteredFoodItem] = useState("");
@@ -22,6 +23,9 @@ const FoodEntryForm = () => {
         value={enteredFoodItem}
         onChange={(e) => setEnteredFoodItem(e.target.value)}></input>
       <button onClick={dispatchActions}>Add</button>
+      <Link to="/foodlog">
+        <h2>Go to Food Log</h2>
+      </Link>
     </form>
   );
 };
