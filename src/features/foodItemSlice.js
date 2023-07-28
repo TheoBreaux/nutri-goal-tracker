@@ -14,12 +14,12 @@ export const fetchFoodItem = createAsyncThunk(
     console.log(data);
     return [
       {
-        Quantity: data.ingredients[0]["parsed"][0].quantity,
         Item: enteredFoodItem[0].toUpperCase() + enteredFoodItem.slice(1),
         Calories: data.calories,
-        Carbohydrates: data.totalNutrients.CHOCDF.quantity.toFixed(0),
-        Fat: data.totalNutrients.FAT.quantity.toFixed(0),
-        Protein: data.totalNutrients.PROCNT.quantity.toFixed(0),
+        Carbohydrates:
+          data.totalNutrients.CHOCDF.quantity.toFixed(0) + " grams",
+        Fat: data.totalNutrients.FAT.quantity.toFixed(0) + " grams",
+        Protein: data.totalNutrients.PROCNT.quantity.toFixed(0) + " grams",
       },
     ];
   }
@@ -28,12 +28,12 @@ export const fetchFoodItem = createAsyncThunk(
 const foodSlice = createSlice({
   name: "food",
   initialState: {
-    log: [],
+    foodLog: [],
     status: "idle",
     error: null,
   },
   reducers: {
-    setEnteredFoodItem: (state, action) => {
+    addToFoodLog: (state, action) => {
       state.log.push(action.payload);
     },
   },
@@ -53,5 +53,5 @@ const foodSlice = createSlice({
   },
 });
 
-export const { setEnteredFoodItem } = foodSlice.actions;
+export const { addToFoodLog } = foodSlice.actions;
 export default foodSlice.reducer;
