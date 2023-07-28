@@ -1,23 +1,19 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchFoodItem } from "../features/foodItemSlice";
+import { useDispatch } from "react-redux";
+import { fetchFoodItem, addToFoodLog } from "../features/foodItemSlice";
 
 const FoodEntryForm = () => {
   const [enteredFoodItem, setEnteredFoodItem] = useState("");
-
   const dispatch = useDispatch();
-  const food = useSelector((state) => state.food);
 
-  console.log(food);
-
-  const handleSubmit = (e) => {
+  const dispatchActions = (e) => {
     e.preventDefault();
     dispatch(fetchFoodItem(enteredFoodItem));
     setEnteredFoodItem("");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <label htmlFor="enteredfooditem">Please Enter Your Food Item: </label>
       <input
         type="text"
@@ -25,7 +21,7 @@ const FoodEntryForm = () => {
         name="enteredfooditem"
         value={enteredFoodItem}
         onChange={(e) => setEnteredFoodItem(e.target.value)}></input>
-      <button>Submit</button>
+      <button onClick={dispatchActions}>Add</button>
     </form>
   );
 };

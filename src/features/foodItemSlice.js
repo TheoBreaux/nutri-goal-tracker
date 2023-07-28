@@ -11,15 +11,14 @@ export const fetchFoodItem = createAsyncThunk(
       `https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${appKey}&nutrition-type=logging&ingr=${enteredFoodItem}`
     );
     const data = response.data;
-    console.log(data);
     return [
       {
-        Item: enteredFoodItem[0].toUpperCase() + enteredFoodItem.slice(1),
-        Calories: data.calories,
-        Carbohydrates:
-          data.totalNutrients.CHOCDF.quantity.toFixed(0) + " grams",
-        Fat: data.totalNutrients.FAT.quantity.toFixed(0) + " grams",
-        Protein: data.totalNutrients.PROCNT.quantity.toFixed(0) + " grams",
+        id: data.ingredients[0].parsed[0].foodId,
+        item: enteredFoodItem[0].toUpperCase() + enteredFoodItem.slice(1),
+        calories: data.calories,
+        carbohydrates: data.totalNutrients.CHOCDF.quantity.toFixed(0),
+        fat: data.totalNutrients.FAT.quantity.toFixed(0),
+        protein: data.totalNutrients.PROCNT.quantity.toFixed(0),
       },
     ];
   }
@@ -34,17 +33,25 @@ const foodSlice = createSlice({
   },
   reducers: {
     addToFoodLog: (state, action) => {
-      state.log.push(action.payload);
+      state.foodLog.push(action.payload);
+    },
+    removeFromFoodLog: (state, action) => {
+      const index = state.foodLog.findIndex((foodItem) => {
+        foodItem.id === action.payload.id;
+      });
+      if (index !== -1) {
+        state.foodLog.splice(index, 1);
+      }
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchFoodItem.pending, (state, action) => {
+      .addCase(fetchFoodItem.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchFoodItem.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.log = action.payload;
+        state.foodLog = action.payload;
       })
       .addCase(fetchFoodItem.rejected, (state, action) => {
         state.status = "failed";
@@ -53,5 +60,5 @@ const foodSlice = createSlice({
   },
 });
 
-export const { addToFoodLog } = foodSlice.actions;
+export const { addToFoodLog, removeFromFoodLog } = foodSlice.actions;
 export default foodSlice.reducer;
