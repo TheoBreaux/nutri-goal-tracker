@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const DailyCalorieCalculator = () => {
-  const [weight, setWeight] = useState("");
-  const [activity, setActivity] = useState("");
+  const [weight, setWeight] = useState(0);
+  const [activity, setActivity] = useState(0);
+  const [totalCalories, setTotalCalories] = useState(0);
+  const [kcalAdjustment, setKcalAdjustment] = useState(0);
 
-  const totalCalories = activity * (weight * 10);
+  useEffect(() => {
+    const calories = activity * (weight * 10);
+    setTotalCalories(calories);
+  }, [weight, activity]);
 
   return (
     <div>
@@ -15,6 +21,11 @@ const DailyCalorieCalculator = () => {
           <li>
             Determine your activity factor based on the notes in the section and
             select it from the dropdown menu.
+          </li>
+          <li>Please select your fitness goal from the dropdown menu.</li>
+          <li>
+            Click the button to generate your personal macros plan after your
+            selections have been made.
           </li>
         </ol>
       </div>
@@ -52,15 +63,27 @@ const DailyCalorieCalculator = () => {
             training)
           </option>
         </select>
+        <label htmlFor="goal">Fitness Goal: </label>
+        <select
+          id="goal"
+          name="goal"
+          onChange={(e) => setKcalAdjustment(e.target.value)}>
+          <option value={0}>Maintain</option>
+          <option value={-500}>Bulk</option>
+          <option value={500}>Shred</option>
+        </select>
       </form>
       <div className="results">
         <p>Weight: {weight}</p>
         <p>Basal Metabolic Rate(BMR): {weight * 10} kcal</p>
         <p>Selected Activity Factor: {activity}</p>
         <p>
-          Total Daily Energy Expenditure(TDEE)/Baselie Calories:{" "}
-          {totalCalories.toFixed(0)}
+          Adjusted Daily Caloric Intake:{" "}
+          {(totalCalories - kcalAdjustment).toFixed(0)}
         </p>
+        <Link to="/macrosbreakdown">
+          <button>Click To Generate Your Tailored Report</button>
+        </Link>
       </div>
     </div>
   );
