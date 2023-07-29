@@ -4,11 +4,12 @@ const MacrosBreakdown = () => {
   const totalDailycalories = useSelector(
     (state) => state.calorieCalculator.adjustedTotalCalories
   );
-  console.log(totalDailycalories);
+
+  const goal = useSelector((state) => state.calorieCalculator.goal);
 
   return (
     <div>
-      <h1>Goal Title</h1>
+      <h1></h1>
       <h5>Daily Total Calories: {totalDailycalories} kcal</h5>
       <table border="1">
         <thead>

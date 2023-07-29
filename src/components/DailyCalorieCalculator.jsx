@@ -100,13 +100,13 @@ const DailyCalorieCalculator = () => {
           id="goal"
           name="goal"
           onChange={(e) => dispatch(setKcalAdjustment(Number(e.target.value)))}>
-          <option value={0} id="Maintain">
+          <option value={0} name="maintain">
             Maintain
           </option>
-          <option value={500} id="Bulk">
+          <option value={500} name="bulk">
             Bulk
           </option>
-          <option value={-500} id="Shred">
+          <option value={-500} name="shred">
             Shred
           </option>
         </select>
