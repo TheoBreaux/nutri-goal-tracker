@@ -1,16 +1,28 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  calculateTotalCalories,
+  setActivity,
+  setKcalAdjustment,
+  setWeight,
+} from "../features/calorieCalculatorSlice";
 
 const DailyCalorieCalculator = () => {
-  const [weight, setWeight] = useState(0);
-  const [activity, setActivity] = useState(0);
-  const [totalCalories, setTotalCalories] = useState(0);
-  const [kcalAdjustment, setKcalAdjustment] = useState(0);
+  const weight = useSelector((state) => state.calorieCalculator.weight);
+  const activity = useSelector((state) => state.calorieCalculator.activity);
+  const totalCalories = useSelector(
+    (state) => state.calorieCalculator.totalCalories
+  );
+  const kcalAdjustment = useSelector(
+    (state) => state.calorieCalculator.kcalAdjustment
+  );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const calories = activity * (weight * 10);
-    setTotalCalories(calories);
-  }, [weight, activity]);
+    dispatch(calculateTotalCalories());
+  }, [dispatch, weight, activity]);
 
   return (
     <div>
@@ -39,7 +51,7 @@ const DailyCalorieCalculator = () => {
           max={500}
           id="weight"
           value={weight}
-          onChange={(e) => setWeight(e.target.value)}
+          onChange={(e) => dispatch(setWeight(e.target.value))}
         />
 
         <label htmlFor="activity">Activity Factor: </label>
@@ -47,18 +59,20 @@ const DailyCalorieCalculator = () => {
           id="activity"
           name="activity"
           value={activity}
-          onChange={(e) => setActivity(e.target.value)}>
-          <option value={1.2}>Sedentary (little or no exercise)</option>
-          <option value={1.375}>
+          onChange={(e) => dispatch(setActivity(e.target.value))}>
+          <option key="sedentary" value={1.2}>
+            Sedentary (little or no exercise)
+          </option>
+          <option key="lightlyActive" value={1.375}>
             Lightly active (light exercise/sports 1-3 days/week)
           </option>
-          <option value={1.55}>
+          <option key="moderatelyActive" value={1.55}>
             Moderatetely active (moderate exercise/sports 3-5 days/week)
           </option>
-          <option value={1.725}>
+          <option key="veryActive" value={1.725}>
             Very active (hard exercise/sports 6-7 days a week)
           </option>
-          <option value={1.9}>
+          <option key="extraActive" value={1.9}>
             Extra active (very hard exercise/sports & physical job or 2x
             training)
           </option>
@@ -67,7 +81,7 @@ const DailyCalorieCalculator = () => {
         <select
           id="goal"
           name="goal"
-          onChange={(e) => setKcalAdjustment(e.target.value)}>
+          onChange={(e) => dispatch(setKcalAdjustment(e.target.value))}>
           <option value={0}>Maintain</option>
           <option value={-500}>Bulk</option>
           <option value={500}>Shred</option>
