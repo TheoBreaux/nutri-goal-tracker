@@ -8,6 +8,7 @@ const calorieCalculatorSlice = createSlice({
     // activityPrevState: 0,
     activityUpdated: false,
     totalCalories: 0,
+    adjustedTotalCalories: 0,
     kcalAdjustment: 0,
   },
   reducers: {
@@ -26,6 +27,9 @@ const calorieCalculatorSlice = createSlice({
     calculateTotalCalories: (state) => {
       state.totalCalories = state.activity * (state.weight * 10);
     },
+    calculateAdjustedTotalCalories: (state, action) => {
+      state.adjustedTotalCalories = action.payload;
+    },
     setKcalAdjustment: (state, action) => {
       state.kcalAdjustment = action.payload;
     },
@@ -36,6 +40,7 @@ export const {
   setWeight,
   setActivity,
   calculateTotalCalories,
+  calculateAdjustedTotalCalories,
   setKcalAdjustment,
 } = calorieCalculatorSlice.actions;
 

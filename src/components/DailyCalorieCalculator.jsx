@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   calculateTotalCalories,
+  calculateAdjustedTotalCalories,
   setActivity,
   setKcalAdjustment,
   setWeight,
@@ -20,9 +21,25 @@ const DailyCalorieCalculator = () => {
 
   const dispatch = useDispatch();
 
+  const getAdjustedCaloricIntake = (totalCalories, kcalAdjustment) => {
+    if (kcalAdjustment === 0) {
+      return totalCalories.toFixed(0);
+    } else if (kcalAdjustment > 0) {
+      return (totalCalories + kcalAdjustment).toFixed(0);
+    } else {
+      return (totalCalories - Math.abs(kcalAdjustment)).toFixed(0);
+    }
+  };
+
+  const adjustedCaloricIntake = getAdjustedCaloricIntake(
+    totalCalories,
+    kcalAdjustment
+  );
+
   useEffect(() => {
     dispatch(calculateTotalCalories());
-  }, [dispatch, weight, activity]);
+    dispatch(calculateAdjustedTotalCalories(Number(adjustedCaloricIntake)));
+  }, [dispatch, weight, activity, adjustedCaloricIntake]);
 
   return (
     <div>
@@ -83,19 +100,22 @@ const DailyCalorieCalculator = () => {
           id="goal"
           name="goal"
           onChange={(e) => dispatch(setKcalAdjustment(Number(e.target.value)))}>
-          <option value={0}>Maintain</option>
-          <option value={-500}>Bulk</option>
-          <option value={500}>Shred</option>
+          <option value={0} id="Maintain">
+            Maintain
+          </option>
+          <option value={500} id="Bulk">
+            Bulk
+          </option>
+          <option value={-500} id="Shred">
+            Shred
+          </option>
         </select>
       </form>
       <div className="results">
         <p>Weight: {weight}</p>
         <p>Basal Metabolic Rate(BMR): {weight * 10} kcal</p>
         <p>Selected Activity Level: {activity}</p>
-        <p>
-          Adjusted Daily Caloric Intake:{" "}
-          {(totalCalories - kcalAdjustment).toFixed(0)}
-        </p>
+        <p>Adjusted Daily Caloric Intake: {adjustedCaloricIntake}</p>
         <Link to="/macrosbreakdown">
           <button>Click To Generate Your Tailored Report</button>
         </Link>
