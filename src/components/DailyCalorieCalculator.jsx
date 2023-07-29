@@ -51,15 +51,16 @@ const DailyCalorieCalculator = () => {
           max={500}
           id="weight"
           value={weight}
-          onChange={(e) => dispatch(setWeight(e.target.value))}
+          onChange={(e) => dispatch(setWeight(Number(e.target.value)))}
         />
 
-        <label htmlFor="activity">Activity Factor: </label>
+        <label htmlFor="activity">Activity Level: </label>
         <select
           id="activity"
           name="activity"
           value={activity}
-          onChange={(e) => dispatch(setActivity(e.target.value))}>
+          onChange={(e) => dispatch(setActivity(Number(e.target.value)))}>
+          <option>Select an activity level...</option>
           <option key="sedentary" value={1.2}>
             Sedentary (little or no exercise)
           </option>
@@ -81,7 +82,7 @@ const DailyCalorieCalculator = () => {
         <select
           id="goal"
           name="goal"
-          onChange={(e) => dispatch(setKcalAdjustment(e.target.value))}>
+          onChange={(e) => dispatch(setKcalAdjustment(Number(e.target.value)))}>
           <option value={0}>Maintain</option>
           <option value={-500}>Bulk</option>
           <option value={500}>Shred</option>
@@ -90,7 +91,7 @@ const DailyCalorieCalculator = () => {
       <div className="results">
         <p>Weight: {weight}</p>
         <p>Basal Metabolic Rate(BMR): {weight * 10} kcal</p>
-        <p>Selected Activity Factor: {activity}</p>
+        <p>Selected Activity Level: {activity}</p>
         <p>
           Adjusted Daily Caloric Intake:{" "}
           {(totalCalories - kcalAdjustment).toFixed(0)}

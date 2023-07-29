@@ -5,6 +5,8 @@ const calorieCalculatorSlice = createSlice({
   initialState: {
     weight: 0,
     activity: 0,
+    // activityPrevState: 0,
+    activityUpdated: false,
     totalCalories: 0,
     kcalAdjustment: 0,
   },
@@ -12,8 +14,15 @@ const calorieCalculatorSlice = createSlice({
     setWeight: (state, action) => {
       state.weight = action.payload;
     },
-    setActivity: (state, action) =>
-      (state.activity = state.activity += action.payload),
+    setActivity: (state, action) => {
+      if (!state.activityUpdated) {
+        // state.activityPrevState = state.activity;
+        state.activity = state.activity + action.payload;
+        state.activityUpdated = true;
+      } else {
+        state.activity = action.payload;
+      }
+    },
     calculateTotalCalories: (state) => {
       state.totalCalories = state.activity * (state.weight * 10);
     },
