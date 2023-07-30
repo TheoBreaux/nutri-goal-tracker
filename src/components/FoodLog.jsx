@@ -16,7 +16,7 @@ const FoodLog = () => {
   const foodItem = useSelector((state) => state.food.foodLog[0]);
 
   console.log(totalDailyCalories);
-  console.log(foodItem)
+  console.log(foodItem);
 
   useEffect(() => {
     if (status === "idle" && searchBegan) {

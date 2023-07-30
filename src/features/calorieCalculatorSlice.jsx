@@ -37,6 +37,7 @@ const calorieCalculatorSlice = createSlice({
     setGoal: (state, action) => {
       state.goal = action.payload;
     },
+    deductCaloriesFromTotal: (state, action) => {},
   },
 });
 
@@ -47,6 +48,7 @@ export const {
   calculateAdjustedTotalCalories,
   setKcalAdjustment,
   setGoal,
+  deductCaloriesFromTotal,
 } = calorieCalculatorSlice.actions;
 
 export default calorieCalculatorSlice.reducer;

@@ -54,7 +54,7 @@ const DailyCalorieCalculator = () => {
       <div>
         <h1>Instructions:</h1>
         <ol>
-          <li>Please enter your weight in the yellow box above.</li>
+          <li>Please enter your weight in the box below.</li>
           <li>
             Determine your activity factor based on the notes in the section and
             select it from the dropdown menu.
