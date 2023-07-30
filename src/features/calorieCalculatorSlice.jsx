@@ -10,7 +10,7 @@ const calorieCalculatorSlice = createSlice({
     totalCalories: 0,
     adjustedTotalCalories: 0,
     kcalAdjustment: 0,
-    goal: { maintain: "Maintain", bulk: "Bulk", shred: "Shred" },
+    goal: "",
   },
   reducers: {
     setWeight: (state, action) => {
@@ -35,7 +35,7 @@ const calorieCalculatorSlice = createSlice({
       state.kcalAdjustment = action.payload;
     },
     setGoal: (state, action) => {
-      state.goal = action.payload.name;
+      state.goal = action.payload;
     },
   },
 });

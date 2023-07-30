@@ -24,7 +24,7 @@ const FoodEntryForm = () => {
         onChange={(e) => setEnteredFoodItem(e.target.value)}></input>
       <button onClick={dispatchActions}>Add</button>
       <Link to="/foodlog">
-        <h2>Go to Food Log</h2>
+        <h2>View Your Food Log</h2>
       </Link>
     </form>
   );

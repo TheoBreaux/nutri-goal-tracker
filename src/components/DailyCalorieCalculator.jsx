@@ -7,6 +7,7 @@ import {
   setActivity,
   setKcalAdjustment,
   setWeight,
+  setGoal,
 } from "../features/calorieCalculatorSlice";
 
 const DailyCalorieCalculator = () => {
@@ -35,6 +36,13 @@ const DailyCalorieCalculator = () => {
     totalCalories,
     kcalAdjustment
   );
+
+  const onFitnessGoalChange = (e) => {
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    const goalName = selectedOption.dataset.goal;
+    dispatch(setKcalAdjustment(Number(e.target.value)));
+    dispatch(setGoal(goalName));
+  };
 
   useEffect(() => {
     dispatch(calculateTotalCalories());
@@ -96,17 +104,15 @@ const DailyCalorieCalculator = () => {
           </option>
         </select>
         <label htmlFor="goal">Fitness Goal: </label>
-        <select
-          id="goal"
-          name="goal"
-          onChange={(e) => dispatch(setKcalAdjustment(Number(e.target.value)))}>
-          <option value={0} name="maintain">
+
+        <select id="goal" onChange={onFitnessGoalChange}>
+          <option value={0} data-goal="Maintain">
             Maintain
           </option>
-          <option value={500} name="bulk">
+          <option value={500} data-goal="Bulk">
             Bulk
           </option>
-          <option value={-500} name="shred">
+          <option value={-500} data-goal="Shred">
             Shred
           </option>
         </select>
