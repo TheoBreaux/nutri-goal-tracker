@@ -9,6 +9,15 @@ const FoodLog = () => {
   const status = useSelector((state) => state.food.status);
   const [searchBegan, setSearchBegan] = useState("false");
 
+  const totalDailyCalories = useSelector(
+    (state) => state.calorieCalculator.adjustedTotalCalories
+  );
+
+  const foodItem = useSelector((state) => state.food.foodLog[0]);
+
+  console.log(totalDailyCalories);
+  console.log(foodItem)
+
   useEffect(() => {
     if (status === "idle" && searchBegan) {
       dispatch(fetchFoodItem());

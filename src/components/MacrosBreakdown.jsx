@@ -99,12 +99,13 @@ const MacrosBreakdown = () => {
       <p>
         Here is a simple example of a balanced macronutrient breakdown for a
         moderately active individual:
-        <ul>
-          <li>Carbohydrates: 50% of total daily calories</li>
-          <li>Protein: 25% of total daily calories</li>
-          <li>Fats: 25% of total daily calories</li>
-        </ul>
       </p>
+
+      <ul>
+        <li>Carbohydrates: 50% of total daily calories</li>
+        <li>Protein: 25% of total daily calories</li>
+        <li>Fats: 25% of total daily calories</li>
+      </ul>
 
       <p>
         Based on your activity level, current weight and goal, this is a

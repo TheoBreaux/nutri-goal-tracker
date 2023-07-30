@@ -15,10 +15,10 @@ export const fetchFoodItem = createAsyncThunk(
       {
         id: data.ingredients[0].parsed[0].foodId,
         item: enteredFoodItem[0].toUpperCase() + enteredFoodItem.slice(1),
-        calories: data.calories,
-        carbohydrates: data.totalNutrients.CHOCDF.quantity.toFixed(0),
-        fat: data.totalNutrients.FAT.quantity.toFixed(0),
-        protein: data.totalNutrients.PROCNT.quantity.toFixed(0),
+        calories: Number(data.calories),
+        carbohydrates: Number(data.totalNutrients.CHOCDF.quantity.toFixed(0)),
+        fat: Number(data.totalNutrients.FAT.quantity.toFixed(0)),
+        protein: Number(data.totalNutrients.PROCNT.quantity.toFixed(0)),
       },
     ];
   }
