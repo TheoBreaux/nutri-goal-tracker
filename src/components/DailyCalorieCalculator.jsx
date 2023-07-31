@@ -11,12 +11,10 @@ import {
 } from "../features/nutritionFactsSlice";
 
 const DailyCalorieCalculator = () => {
-  const weight = useSelector(state => state.nutrition.weight)
+  const weight = useSelector((state) => state.nutrition.weight);
   const activity = useSelector((state) => state.nutrition.activity);
   const totalCalories = useSelector((state) => state.nutrition.totalCalories);
   const kcalAdjustment = useSelector((state) => state.nutrition.kcalAdjustment);
-
-  console.log(weight);
 
   const dispatch = useDispatch();
 

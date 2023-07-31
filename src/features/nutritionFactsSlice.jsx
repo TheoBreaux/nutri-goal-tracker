@@ -32,6 +32,9 @@ const nutritionSlice = createSlice({
     activityUpdated: false,
     totalCalories: 0,
     adjustedTotalCalories: 0,
+    totalCarbs: 0,
+    totalFat: 0,
+    totalProtein: 0,
     kcalAdjustment: 0,
     goal: "",
     foodLog: [],
@@ -44,12 +47,17 @@ const nutritionSlice = createSlice({
     },
     setActivity: (state, action) => {
       if (!state.activityUpdated) {
-        // state.activityPrevState = state.activity;
         state.activity = state.activity + action.payload;
         state.activityUpdated = true;
       } else {
         state.activity = action.payload;
       }
+    },
+    setGoal: (state, action) => {
+      state.goal = action.payload;
+    },
+    setKcalAdjustment: (state, action) => {
+      state.kcalAdjustment = action.payload;
     },
     calculateTotalCalories: (state) => {
       state.totalCalories = state.activity * (state.weight * 10);
@@ -57,13 +65,27 @@ const nutritionSlice = createSlice({
     calculateAdjustedTotalCalories: (state, action) => {
       state.adjustedTotalCalories = action.payload;
     },
-    setKcalAdjustment: (state, action) => {
-      state.kcalAdjustment = action.payload;
+    setProtein: (state, action) => {
+      state.totalProtein = action.payload;
     },
-    setGoal: (state, action) => {
-      state.goal = action.payload;
+    setCarbs: (state, action) => {
+      state.totalCarbs = action.payload;
     },
-    deductCaloriesFromTotal: (state, action) => {},
+    setFat: (state, action) => {
+      state.totalFat = action.payload;
+    },
+    deductCalories: (state) => {
+      state.adjustedTotalCalories -= state.foodLog[0].calories;
+    },
+    deductCarbs: (state) => {
+      state.totalCarbs -= state.foodLog[0].carbohydrates;
+    },
+    deductFat: (state) => {
+      state.totalFat -= state.foodLog[0].fat;
+    },
+    deductProtein: (state) => {
+      state.totalProtein -= state.foodLog[0].protein;
+    },
     addToFoodLog: (state, action) => {
       state.foodLog.push(action.payload);
     },
@@ -99,7 +121,13 @@ export const {
   calculateAdjustedTotalCalories,
   setKcalAdjustment,
   setGoal,
-  deductCaloriesFromTotal,
+  setProtein,
+  setCarbs,
+  setFat,
+  deductCalories,
+  deductCarbs,
+  deductFat,
+  deductProtein,
   addToFoodLog,
   removeFromFoodLog,
 } = nutritionSlice.actions;

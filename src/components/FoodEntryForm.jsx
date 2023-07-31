@@ -2,14 +2,19 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFoodItem } from "../features/nutritionFactsSlice";
 import { Link } from "react-router-dom";
-import { deductCaloriesFromTotal } from "../features/nutritionFactsSlice";
+import {
+  deductCalories,
+  deductCarbs,
+  deductFat,
+  deductProtein,
+} from "../features/nutritionFactsSlice";
 
 const FoodEntryForm = () => {
   const calories = useSelector(
     (state) => state.nutrition.adjustedTotalCalories
   );
 
-  const food = useSelector((state) => state.nutrition.foodLog[0]);
+  const food = useSelector((state) => state.nutrition.foodLog);
 
   console.log(calories);
   console.log(food);
@@ -17,12 +22,19 @@ const FoodEntryForm = () => {
   const [enteredFoodItem, setEnteredFoodItem] = useState("");
   const dispatch = useDispatch();
 
-  const dispatchActions = (e) => {
+  const dispatchActions = async (e) => {
     e.preventDefault();
-    dispatch(fetchFoodItem(enteredFoodItem));
-    // dispatch(deductCaloriesFromTotal(food));
+    await dispatch(fetchFoodItem(enteredFoodItem));
+
+    dispatch(deductCalories());
+    dispatch(deductCarbs());
+    dispatch(deductFat());
+    dispatch(deductProtein());
+
     setEnteredFoodItem("");
   };
+
+  console.log(food);
 
   return (
     <form>

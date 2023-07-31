@@ -8,7 +8,7 @@ const FoodEntry = () => {
   return (
     <div>
       {foodEntries.map((entry) => (
-        <div key={entry.id}>
+        <div key={entry.id + Math.random()}>
           <h3>{entry.item}</h3>
           <p>Calories: {entry.calories} kcal</p>
           <p>Carbohydrates: {entry.carbohydrates} gram(s)</p>

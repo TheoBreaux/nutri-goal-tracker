@@ -1,7 +1,10 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { setProtein, setCarbs, setFat } from "../features/nutritionFactsSlice";
 
 const MacrosBreakdown = () => {
+  const dispatch = useDispatch();
+
   const totalDailycalories = useSelector(
     (state) => state.nutrition.adjustedTotalCalories
   );
@@ -14,13 +17,25 @@ const MacrosBreakdown = () => {
     fat: 25,
   };
 
-  const totalPercentage = Object.values(macroPercentages).reduce(
-    (acc, currVal) => acc + currVal,
-    0
-  );
-
   const totalKcal = function (totalDailycalories, macroPercentages, macro) {
     return totalDailycalories * (macroPercentages[macro] / 100);
+  };
+
+  const proteinGrams = Math.round(
+    totalKcal(totalDailycalories, macroPercentages, "protein") / 4
+  );
+  const carbGrams = Math.round(
+    totalKcal(totalDailycalories, macroPercentages, "carbs") / 4
+  );
+
+  const fatGrams = Math.round(
+    totalKcal(totalDailycalories, macroPercentages, "fat") / 9
+  );
+
+  const sendMacrosHandler = () => {
+    dispatch(setProtein(proteinGrams));
+    dispatch(setCarbs(carbGrams));
+    dispatch(setFat(fatGrams));
   };
 
   return (
@@ -40,12 +55,7 @@ const MacrosBreakdown = () => {
           <tr>
             <td>Protein (grams/day)</td>
             <td>{macroPercentages.protein}%</td>
-            <td>
-              {(
-                totalKcal(totalDailycalories, macroPercentages, "protein") / 4
-              ).toFixed(0)}{" "}
-              grams
-            </td>
+            <td>{proteinGrams} grams</td>
             <td>
               {totalKcal(
                 totalDailycalories,
@@ -55,15 +65,11 @@ const MacrosBreakdown = () => {
               kcal
             </td>
           </tr>
+
           <tr>
             <td>Carbohydrates (grams/day)</td>
             <td>{macroPercentages.carbs}%</td>
-            <td>
-              {(
-                totalKcal(totalDailycalories, macroPercentages, "carbs") / 4
-              ).toFixed(0)}{" "}
-              grams
-            </td>
+            <td>{carbGrams} grams</td>
             <td>
               {totalKcal(totalDailycalories, macroPercentages, "carbs").toFixed(
                 0
@@ -71,15 +77,11 @@ const MacrosBreakdown = () => {
               kcal
             </td>
           </tr>
+
           <tr>
             <td>Fat (grams/day)</td>
             <td>{macroPercentages.fat}%</td>
-            <td>
-              {(
-                totalKcal(totalDailycalories, macroPercentages, "fat") / 9
-              ).toFixed(0)}{" "}
-              grams
-            </td>
+            <td>{fatGrams} grams</td>
             <td>
               {totalKcal(totalDailycalories, macroPercentages, "fat").toFixed(
                 0
@@ -87,9 +89,10 @@ const MacrosBreakdown = () => {
               kcal
             </td>
           </tr>
+
           <tr>
             <td>Total Percentage</td>
-            <td>{totalPercentage}%</td>
+            <td>100%</td>
             <td></td>
             <td>{totalDailycalories} kcal</td>
           </tr>
@@ -102,8 +105,9 @@ const MacrosBreakdown = () => {
       </p>
 
       <ul>
-        <li>Carbohydrates: 50% of total daily calories</li>
         <li>Protein: 25% of total daily calories</li>
+        <li>Carbohydrates: 50% of total daily calories</li>
+
         <li>Fats: 25% of total daily calories</li>
       </ul>
 
@@ -121,7 +125,9 @@ const MacrosBreakdown = () => {
         health status.
       </p>
       <Link to="/foodentryform">
-        <button>Click Here To Log Your Food!</button>
+        <button onClick={sendMacrosHandler}>
+          Click Here To Log Your Food!
+        </button>
       </Link>
     </div>
   );
