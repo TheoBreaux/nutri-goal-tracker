@@ -17,6 +17,7 @@ const DailyCalorieCalculator = () => {
   const kcalAdjustment = useSelector((state) => state.nutrition.kcalAdjustment);
 
   const dispatch = useDispatch();
+  const style = { fontWeight: "bold" };
 
   const getAdjustedCaloricIntake = (totalCalories, kcalAdjustment) => {
     if (kcalAdjustment === 0) {
@@ -48,12 +49,13 @@ const DailyCalorieCalculator = () => {
   return (
     <div>
       <div>
-        <h1>Instructions:</h1>
-        <ol>
-          <li>Please enter your weight in the box below.</li>
+        <h1 className="title" style={{ marginBottom: "15px" }}>
+          Instructions:
+        </h1>
+        <ol className="instructions">
+          <li>Please enter your current weight in the box below.</li>
           <li>
-            Determine your activity factor based on the notes in the section and
-            select it from the dropdown menu.
+            Determine your activity factor and select from the dropdown menu.
           </li>
           <li>Please select your fitness goal from the dropdown menu.</li>
           <li>
@@ -63,9 +65,10 @@ const DailyCalorieCalculator = () => {
         </ol>
       </div>
 
-      <form>
+      <form className="user-input-form">
         <label htmlFor="weight">Weight: </label>
         <input
+          className="input"
           type="number"
           name="weight"
           min={0}
@@ -77,6 +80,7 @@ const DailyCalorieCalculator = () => {
 
         <label htmlFor="activity">Activity Level: </label>
         <select
+          className="input"
           id="activity"
           name="activity"
           value={activity}
@@ -99,9 +103,11 @@ const DailyCalorieCalculator = () => {
             training)
           </option>
         </select>
+
         <label htmlFor="goal">Fitness Goal: </label>
 
-        <select id="goal" onChange={onFitnessGoalChange}>
+        <select className="input" id="goal" onChange={onFitnessGoalChange}>
+          <option>Select a fitness goal...</option>
           <option value={0} data-goal="Maintain">
             Maintain
           </option>
@@ -114,12 +120,25 @@ const DailyCalorieCalculator = () => {
         </select>
       </form>
       <div className="results">
-        <p>Weight: {weight}</p>
-        <p>Basal Metabolic Rate(BMR): {weight * 10} kcal</p>
-        <p>Selected Activity Level: {activity}</p>
-        <p>Adjusted Daily Caloric Intake: {adjustedCaloricIntake}</p>
-        <Link to="/macrosbreakdown">
-          <button>Click To Generate Your Tailored Report</button>
+        <h3 className="title">Please Confirm Your Inputs:</h3>
+        <p>
+          <span style={style}>Weight:</span> {weight}
+        </p>
+        <p>
+          <span style={style}>Basal Metabolic Rate(BMR):</span> {weight * 10}{" "}
+          kcal
+        </p>
+        <p>
+          <span style={style}>Selected Activity Level:</span> {activity}
+        </p>
+        <p>
+          <span style={style}>Adjusted Daily Caloric Intake:</span>{" "}
+          {adjustedCaloricIntake} kcal
+        </p>
+        <Link to="/macrosbreakdown" className="links">
+          <button className="button">
+            Click To Generate Your Tailored Report
+          </button>
         </Link>
       </div>
     </div>

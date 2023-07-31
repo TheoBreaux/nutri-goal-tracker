@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const WelcomeMessage = () => {
   return (
-    <div>
-      <h1>Welcome to Nutri Goal Tracker</h1>
+    <div className="welcome-message">
+      <h1 className="title">Welcome to NutriGoalTracker</h1>
       <p>
         Welcome to NutriGoalTracker! We are thrilled to have you embark on a
         journey towards a healthier and fitter lifestyle with us. Our mission is
@@ -28,8 +28,8 @@ const WelcomeMessage = () => {
         here to make them a reality. Let's take the first step towards a
         healthier and happier you!
       </p>
-      <Link to="/dailycaloriecalculator">
-        <button>Begin Your Fitness Journey!</button>
+      <Link to="/dailycaloriecalculator" className="links">
+        <button className="button">Begin Your Fitness Journey!</button>
       </Link>
     </div>
   );

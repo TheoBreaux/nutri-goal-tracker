@@ -40,9 +40,11 @@ const MacrosBreakdown = () => {
 
   return (
     <div>
-      <h1>{goal}</h1>
-      <h5>Daily Total Calories: {totalDailycalories} kcal</h5>
-      <table border="1">
+      <h1 className="title">{goal}</h1>
+      <h4 className="subtitle">
+        Daily Total Calories: {totalDailycalories} kcal
+      </h4>
+      <table className="macros-table" border="1">
         <thead>
           <tr>
             <th>Macronutrients</th>
@@ -53,9 +55,9 @@ const MacrosBreakdown = () => {
         </thead>
         <tbody>
           <tr>
-            <td>Protein (grams/day)</td>
+            <td>Protein</td>
             <td>{macroPercentages.protein}%</td>
-            <td>{proteinGrams} grams</td>
+            <td>{proteinGrams} g</td>
             <td>
               {totalKcal(
                 totalDailycalories,
@@ -67,9 +69,9 @@ const MacrosBreakdown = () => {
           </tr>
 
           <tr>
-            <td>Carbohydrates (grams/day)</td>
+            <td>Carbohydrates</td>
             <td>{macroPercentages.carbs}%</td>
-            <td>{carbGrams} grams</td>
+            <td>{carbGrams} g</td>
             <td>
               {totalKcal(totalDailycalories, macroPercentages, "carbs").toFixed(
                 0
@@ -79,9 +81,9 @@ const MacrosBreakdown = () => {
           </tr>
 
           <tr>
-            <td>Fat (grams/day)</td>
+            <td>Fat</td>
             <td>{macroPercentages.fat}%</td>
-            <td>{fatGrams} grams</td>
+            <td>{fatGrams} g</td>
             <td>
               {totalKcal(totalDailycalories, macroPercentages, "fat").toFixed(
                 0
@@ -93,7 +95,7 @@ const MacrosBreakdown = () => {
           <tr>
             <td>Total Percentage</td>
             <td>100%</td>
-            <td></td>
+            <td id="empty"></td>
             <td>{totalDailycalories} kcal</td>
           </tr>
         </tbody>
@@ -105,10 +107,19 @@ const MacrosBreakdown = () => {
       </p>
 
       <ul>
-        <li>Protein: 25% of total daily calories</li>
-        <li>Carbohydrates: 50% of total daily calories</li>
+        <li>
+          <span style={{ fontWeight: "bold" }}>Protein:</span> 25% of total
+          daily calories
+        </li>
+        <li>
+          <span style={{ fontWeight: "bold" }}>Carbohydrates:</span> 50% of
+          total daily calories
+        </li>
 
-        <li>Fats: 25% of total daily calories</li>
+        <li>
+          <span style={{ fontWeight: "bold" }}>Fats:</span> 25% of total daily
+          calories
+        </li>
       </ul>
 
       <p>
@@ -119,13 +130,12 @@ const MacrosBreakdown = () => {
       </p>
 
       <p>
-        Again, this is just a general guideline, and you should consider
-        consulting with a registered dietitian or healthcare professional to get
-        personalized recommendations based on your unique needs, goals, and
-        health status.
+        Give <span style={{ fontWeight: "bold" }}>NutriGoalTracker</span> a try!
+        Click the button below to start logging your food and tracking your
+        macros and calories!
       </p>
-      <Link to="/foodentryform">
-        <button onClick={sendMacrosHandler}>
+      <Link to="/foodentryform" className="links">
+        <button className="button" onClick={sendMacrosHandler}>
           Click Here To Log Your Food!
         </button>
       </Link>

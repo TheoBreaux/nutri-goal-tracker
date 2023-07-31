@@ -8,6 +8,7 @@ import {
   deductFat,
   deductProtein,
 } from "../features/nutritionFactsSlice";
+import NutrientsRemaining from "./NutrientsRemaining";
 
 const FoodEntryForm = () => {
   const calories = useSelector(
@@ -24,33 +25,56 @@ const FoodEntryForm = () => {
 
   const dispatchActions = async (e) => {
     e.preventDefault();
-    await dispatch(fetchFoodItem(enteredFoodItem));
 
+    if (!enteredFoodItem) {
+      return;
+    }
+    await dispatch(fetchFoodItem(enteredFoodItem));
     dispatch(deductCalories());
     dispatch(deductCarbs());
     dispatch(deductFat());
     dispatch(deductProtein());
-
     setEnteredFoodItem("");
   };
 
   console.log(food);
 
   return (
-    <form>
-      <label htmlFor="enteredfooditem">Please Enter Your Food Item: </label>
-      <input
-        type="text"
-        id="enteredfooditem"
-        name="enteredfooditem"
-        value={enteredFoodItem}
-        onChange={(e) => setEnteredFoodItem(e.target.value)}></input>
-      <p>ex. 1 slice of pepperoni pizza</p>
-      <button onClick={dispatchActions}>Click Here To Add</button>
-      <Link to="/foodlog">
-        <h2>View Your Food Log</h2>
+    <div className="food-entry-container">
+      <form className="food-entry-form">
+        <label id="food-input-label" htmlFor="enteredfooditem">
+          Please Enter Your Food Item:{" "}
+        </label>
+        <input
+          className="input"
+          type="text"
+          id="enteredfooditem"
+          name="enteredfooditem"
+          value={enteredFoodItem}
+          onChange={(e) => setEnteredFoodItem(e.target.value)}
+          placeholder="ex. 1 slice of pepperoni pizza"
+          style={{ marginBottom: "10px" }}
+          required
+        />
+        <p>
+          Please be as specific as you can with the quantity and measurement of
+          your food as possible.{" "}
+          <span style={{ fontWeight: "bold" }}>
+            For example, 1 cup rice, 10 oz chickpeas, etc.
+          </span>{" "}
+        </p>
+      </form>
+
+      <button className="button" onClick={dispatchActions}>
+        Click Here To Add
+      </button>
+      <NutrientsRemaining />
+      <Link to="/foodlog" className="links">
+        <button className="button" style={{ marginTop: "20px" }}>
+          View Your Food Log
+        </button>
       </Link>
-    </form>
+    </div>
   );
 };
 

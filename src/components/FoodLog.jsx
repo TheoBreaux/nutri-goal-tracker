@@ -3,21 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchFoodItem } from "../features/nutritionFactsSlice";
 import FoodEntry from "./FoodEntry";
 import { Link } from "react-router-dom";
+import NutrientsRemaining from "./NutrientsRemaining";
 
 const FoodLog = () => {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.nutrition.status);
   const foodItem = useSelector((state) => state.nutrition.foodLog[0]);
-  const totalDailyCaloriesRemaining = useSelector(
-    (state) => state.nutrition.adjustedTotalCalories
-  );
-  const fatRemaining = useSelector((state) => state.nutrition.totalFat);
-  const carbsRemaining = useSelector((state) => state.nutrition.totalCarbs);
-  const proteinRemaining = useSelector((state) => state.nutrition.totalProtein);
-
   const [searchBegan, setSearchBegan] = useState("false");
 
-  console.log(totalDailyCaloriesRemaining);
   console.log(foodItem);
 
   useEffect(() => {
@@ -34,16 +27,11 @@ const FoodLog = () => {
 
   return (
     <div>
-      <h1>FoodLog</h1>
+      <h1 className="title">FoodLog</h1>
       <FoodEntry />
-      <h3>Nutrients Remaining</h3>
-      <p>Carbohydrates (g): {carbsRemaining} </p>
-      <p>Fat (g): {fatRemaining}</p>
-      <p>Protein (g): {proteinRemaining}</p>
-
-      <p>Calories: {totalDailyCaloriesRemaining} </p>
-      <Link to="/foodentryform">
-        <h2>Go to Food Entry Form</h2>
+      <NutrientsRemaining />
+      <Link to="/foodentryform" className="links">
+        <button className="button">Return to Food Entry</button>
       </Link>
     </div>
   );

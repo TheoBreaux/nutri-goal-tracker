@@ -27,7 +27,7 @@ export const fetchFoodItem = createAsyncThunk(
 const nutritionSlice = createSlice({
   name: "nutrition",
   initialState: {
-    weight: 0,
+    weight: "",
     activity: 0,
     activityUpdated: false,
     totalCalories: 0,
@@ -75,25 +75,48 @@ const nutritionSlice = createSlice({
       state.totalFat = action.payload;
     },
     deductCalories: (state) => {
-      state.adjustedTotalCalories -= state.foodLog[0].calories;
+      if (state.adjustedTotalCalories <= 0 || state.foodLog.length === 0) {
+        return;
+      }
+      const lastFoodItem = state.foodLog[state.foodLog.length - 1];
+      state.adjustedTotalCalories -= lastFoodItem.calories;
     },
     deductCarbs: (state) => {
-      state.totalCarbs -= state.foodLog[0].carbohydrates;
+      if (state.totalCarbs <= 0 || state.foodLog.length === 0) {
+        return;
+      }
+      const lastFoodItem = state.foodLog[state.foodLog.length - 1];
+      state.totalCarbs -= lastFoodItem.carbohydrates;
     },
     deductFat: (state) => {
-      state.totalFat -= state.foodLog[0].fat;
+      if (state.totalFat <= 0 || state.foodLog.length === 0) {
+        return;
+      }
+      const lastFoodItem = state.foodLog[state.foodLog.length - 1];
+      state.totalFat -= lastFoodItem.fat;
     },
     deductProtein: (state) => {
-      state.totalProtein -= state.foodLog[0].protein;
+      if (state.totalProtein <= 0 || state.foodLog.length === 0) {
+        return;
+      }
+      const lastFoodItem = state.foodLog[state.foodLog.length - 1];
+      state.totalProtein -= lastFoodItem.protein;
     },
     addToFoodLog: (state, action) => {
       state.foodLog.push(action.payload);
     },
     removeFromFoodLog: (state, action) => {
-      const index = state.foodLog.findIndex((foodItem) => {
-        foodItem.id === action.payload.id;
+      const index = state.foodLog.findIndex((entry) => {
+        return entry.id === action.payload.id;
       });
       if (index !== -1) {
+        const removedFoodItem = state.foodLog[index];
+
+        state.adjustedTotalCalories += removedFoodItem.calories;
+        state.totalCarbs += removedFoodItem.carbohydrates;
+        state.totalFat += removedFoodItem.fat;
+        state.totalProtein += removedFoodItem.protein;
+
         state.foodLog.splice(index, 1);
       }
     },
