@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromFoodLog } from "../features/foodItemSlice";
+import { removeFromFoodLog } from "../features/nutritionFactsSlice";
 
 const FoodEntry = () => {
   const dispatch = useDispatch();
-  const foodEntries = useSelector((state) => state.food.foodLog);
+  const foodEntries = useSelector((state) => state.nutrition.foodLog);
 
   return (
     <div>

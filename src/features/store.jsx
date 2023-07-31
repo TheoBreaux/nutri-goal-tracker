@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import foodReducer from "./foodItemSlice";
-import calorieCalculatorReducer from "./calorieCalculatorSlice";
+import nutritionFactsReducer from "./nutritionFactsSlice";
 
 const store = configureStore({
   reducer: {
-    food: foodReducer,
-    calorieCalculator: calorieCalculatorReducer,
+    nutrition: nutritionFactsReducer,
   },
 });
 

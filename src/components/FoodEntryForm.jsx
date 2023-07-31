@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFoodItem } from "../features/foodItemSlice";
+import { fetchFoodItem } from "../features/nutritionFactsSlice";
 import { Link } from "react-router-dom";
-import { deductCaloriesFromTotal } from "../features/calorieCalculatorSlice";
+import { deductCaloriesFromTotal } from "../features/nutritionFactsSlice";
 
 const FoodEntryForm = () => {
   const calories = useSelector(
-    (state) => state.calorieCalculator.adjustedTotalCalories
+    (state) => state.nutrition.adjustedTotalCalories
   );
 
-  const food = useSelector((state) => state.food.foodLog[0]);
+  const food = useSelector((state) => state.nutrition.foodLog[0]);
 
   console.log(calories);
   console.log(food);

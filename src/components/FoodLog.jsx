@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFoodItem } from "../features/foodItemSlice";
+import { fetchFoodItem } from "../features/nutritionFactsSlice";
 import FoodEntry from "./FoodEntry";
 import { Link } from "react-router-dom";
 
 const FoodLog = () => {
   const dispatch = useDispatch();
-  const status = useSelector((state) => state.food.status);
+  const status = useSelector((state) => state.nutrition.status);
   const [searchBegan, setSearchBegan] = useState("false");
 
   const totalDailyCalories = useSelector(
-    (state) => state.calorieCalculator.adjustedTotalCalories
+    (state) => state.nutrition.adjustedTotalCalories
   );
 
-  const foodItem = useSelector((state) => state.food.foodLog[0]);
+  const foodItem = useSelector((state) => state.nutrition.foodLog[0]);
 
   console.log(totalDailyCalories);
   console.log(foodItem);

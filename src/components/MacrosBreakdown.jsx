@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 const MacrosBreakdown = () => {
   const totalDailycalories = useSelector(
-    (state) => state.calorieCalculator.adjustedTotalCalories
+    (state) => state.nutrition.adjustedTotalCalories
   );
 
-  const goal = useSelector((state) => state.calorieCalculator.goal);
+  const goal = useSelector((state) => state.nutrition.goal);
 
   const macroPercentages = {
     protein: 25,
