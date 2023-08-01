@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFoodItem } from "../features/nutritionFactsSlice";
 import { Link } from "react-router-dom";
@@ -21,7 +21,18 @@ const FoodEntryForm = () => {
   console.log(food);
 
   const [enteredFoodItem, setEnteredFoodItem] = useState("");
+  const [showNotification, setShowNotification] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    let timer;
+    if (showNotification) {
+      timer = setTimeout(() => {
+        setShowNotification(false);
+      }, 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [showNotification]);
 
   const dispatchActions = async (e) => {
     e.preventDefault();
@@ -34,10 +45,9 @@ const FoodEntryForm = () => {
     dispatch(deductCarbs());
     dispatch(deductFat());
     dispatch(deductProtein());
+    setShowNotification(true);
     setEnteredFoodItem("");
   };
-
-  console.log(food);
 
   return (
     <div className="food-entry-container">
@@ -62,12 +72,13 @@ const FoodEntryForm = () => {
           <span style={{ fontWeight: "bold" }}>
             For example, 1 cup rice, 10 oz chickpeas, etc.
           </span>{" "}
+          <button className="button" onClick={dispatchActions}>
+            Click Here To Add
+          </button>
         </p>
       </form>
 
-      <button className="button" onClick={dispatchActions}>
-        Click Here To Add
-      </button>
+      {showNotification && <p className="notification">Successfully Added!</p>}
       <NutrientsRemaining />
       <Link to="/foodlog" className="links">
         <button className="button" style={{ marginTop: "20px" }}>

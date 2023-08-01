@@ -18,17 +18,17 @@ const NutrientsRemaining = () => {
     <div className="nutrients-remaining">
       <h2 className="title">Nutrients Remaining</h2>
       <p>
-        Carbohydrates (g): <span style={style}>{carbsRemaining}</span>{" "}
+        Carbohydrates: <span style={style}>{carbsRemaining} g</span>{" "}
       </p>
       <p>
-        Fat (g): <span style={style}>{fatRemaining}</span>
+        Fat: <span style={style}>{fatRemaining} g</span>
       </p>
       <p>
-        Protein (g): <span style={style}>{proteinRemaining}</span>
+        Protein: <span style={style}>{proteinRemaining} g</span>
       </p>
 
       <p>
-        Calories: <span style={style}>{totalDailyCaloriesRemaining}</span>{" "}
+        Calories: <span style={style}>{totalDailyCaloriesRemaining} kcal</span>{" "}
       </p>
     </div>
   );

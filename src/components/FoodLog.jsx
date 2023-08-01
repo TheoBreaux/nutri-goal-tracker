@@ -27,12 +27,10 @@ const FoodLog = () => {
 
   return (
     <div>
-      <h1 className="title">FoodLog</h1>
+      <h1 className="title">Food Log</h1>
       <FoodEntry />
       <NutrientsRemaining />
-      <Link to="/foodentryform" className="links">
-        <button className="button">Return to Food Entry</button>
-      </Link>
+      
     </div>
   );
 };
