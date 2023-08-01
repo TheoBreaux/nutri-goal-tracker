@@ -11,17 +11,10 @@ import {
 import NutrientsRemaining from "./NutrientsRemaining";
 
 const FoodEntryForm = () => {
-  const calories = useSelector(
-    (state) => state.nutrition.adjustedTotalCalories
-  );
-
-  const food = useSelector((state) => state.nutrition.foodLog);
-
-  console.log(calories);
-  console.log(food);
-
   const [enteredFoodItem, setEnteredFoodItem] = useState("");
   const [showNotification, setShowNotification] = useState(false);
+  const [searchBegan, setSearchBegan] = useState(false);
+  const status = useSelector((state) => state.nutrition.status);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,6 +27,22 @@ const FoodEntryForm = () => {
     return () => clearTimeout(timer);
   }, [showNotification]);
 
+  useEffect(() => {
+    if (status === "idle" && searchBegan) {
+      dispatch(fetchFoodItem());
+    }
+  }, [status, dispatch, searchBegan]);
+
+  if (status === "loading" && searchBegan) {
+    return <h1>Loading...</h1>;
+  } else if (status === "failed" && !searchBegan) {
+    return (
+      <h2 className="title">
+        Error loading food entry. Please try again later.
+      </h2>
+    );
+  }
+
   const dispatchActions = async (e) => {
     e.preventDefault();
 
@@ -45,6 +54,7 @@ const FoodEntryForm = () => {
     dispatch(deductCarbs());
     dispatch(deductFat());
     dispatch(deductProtein());
+    setSearchBegan(true);
     setShowNotification(true);
     setEnteredFoodItem("");
   };
