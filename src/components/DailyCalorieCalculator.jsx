@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -11,6 +11,7 @@ import {
 } from "../features/nutritionFactsSlice";
 
 const DailyCalorieCalculator = () => {
+  const [validSubmission, setValidSubmission] = useState(false);
   const weight = useSelector((state) => state.nutrition.weight);
   const activity = useSelector((state) => state.nutrition.activity);
   const totalCalories = useSelector((state) => state.nutrition.totalCalories);
@@ -37,8 +38,12 @@ const DailyCalorieCalculator = () => {
   const onFitnessGoalChange = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const goalName = selectedOption.dataset.goal;
-    dispatch(setKcalAdjustment(Number(e.target.value)));
-    dispatch(setGoal(goalName));
+
+    if (weight !== "" && activity !== "") {
+      setValidSubmission(true);
+      dispatch(setKcalAdjustment(Number(e.target.value)));
+      dispatch(setGoal(goalName));
+    }
   };
 
   useEffect(() => {
@@ -66,7 +71,7 @@ const DailyCalorieCalculator = () => {
       </div>
 
       <form className="user-input-form">
-        <label htmlFor="weight">Weight: </label>
+        <label htmlFor="weight">Weight (in lbs): </label>
         <input
           className="input"
           type="number"
@@ -122,7 +127,7 @@ const DailyCalorieCalculator = () => {
       <div className="results">
         <h3 className="title">Please Confirm Your Inputs:</h3>
         <p>
-          <span style={style}>Weight:</span> {weight}
+          <span style={style}>Weight:</span> {weight} lbs
         </p>
         <p>
           <span style={style}>Basal Metabolic Rate(BMR):</span> {weight * 10}{" "}
@@ -136,9 +141,15 @@ const DailyCalorieCalculator = () => {
           {adjustedCaloricIntake} kcal
         </p>
         <Link to="/macrosbreakdown" className="links">
-          <button className="button">
-            Click To Generate Your Tailored Report
-          </button>
+          {validSubmission ? (
+            <button className="button">
+              Click To Generate Your Tailored Report
+            </button>
+          ) : (
+            <button className="disabled-btn" disabled>
+              Click To Generate Your Tailored Report
+            </button>
+          )}
         </Link>
       </div>
     </div>

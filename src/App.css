@@ -35,7 +35,8 @@
   background-color: var(--tertiary-color);
 }
 
-.button {
+.button,
+.disabled-btn {
   font-weight: bold;
   display: block;
   margin: 0 auto;
@@ -52,6 +53,14 @@
   background-color: var(--secondary-color);
   color: var(--tertiary-color);
   border: 5px double whitesmoke;
+}
+
+.disabled-btn {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #e6e6e6;
+  color: black;
+  border: 5px double #ccc;
 }
 
 .input {

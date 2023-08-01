@@ -14,24 +14,29 @@ const FoodEntryForm = () => {
   const [enteredFoodItem, setEnteredFoodItem] = useState("");
   const [showNotification, setShowNotification] = useState(false);
   const [searchBegan, setSearchBegan] = useState(false);
+  const [validSubmission, setValidSubmission] = useState(false);
   const status = useSelector((state) => state.nutrition.status);
   const dispatch = useDispatch();
 
   useEffect(() => {
     let timer;
+    if (enteredFoodItem !== "") {
+      setValidSubmission(true);
+    }
+
     if (showNotification) {
       timer = setTimeout(() => {
         setShowNotification(false);
       }, 2000);
     }
     return () => clearTimeout(timer);
-  }, [showNotification]);
+  }, [showNotification, enteredFoodItem]);
 
   useEffect(() => {
     if (status === "idle" && searchBegan) {
-      dispatch(fetchFoodItem());
+      dispatch(fetchFoodItem(enteredFoodItem));
     }
-  }, [status, dispatch, searchBegan]);
+  }, [status, dispatch, searchBegan, enteredFoodItem]);
 
   if (status === "loading" && searchBegan) {
     return <h1>Loading...</h1>;
@@ -82,9 +87,15 @@ const FoodEntryForm = () => {
           <span style={{ fontWeight: "bold" }}>
             For example, 1 cup rice, 10 oz chickpeas, etc.
           </span>{" "}
-          <button className="button" onClick={dispatchActions}>
-            Click Here To Add
-          </button>
+          {validSubmission ? (
+            <button className="button" onClick={dispatchActions}>
+              Click Here To Add
+            </button>
+          ) : (
+            <button className="disabled-btn" onClick={dispatchActions} disabled>
+              Click Here To Add
+            </button>
+          )}
         </p>
       </form>
 

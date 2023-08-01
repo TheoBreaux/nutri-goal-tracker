@@ -3,8 +3,8 @@ import { removeFromFoodLog } from "../features/nutritionFactsSlice";
 import { Link } from "react-router-dom";
 
 const FoodEntry = () => {
-  const dispatch = useDispatch();
   const foodEntries = useSelector((state) => state.nutrition.foodLog);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -27,7 +27,9 @@ const FoodEntry = () => {
         </div>
       ))}
       <Link to="/foodentryform" className="links">
-        <button style={{marginTop: "10px"}}className="button">Return to Food Entry</button>
+        <button style={{ marginTop: "10px" }} className="button">
+          Return to Food Entry
+        </button>
       </Link>
     </>
   );
