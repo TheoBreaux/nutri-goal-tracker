@@ -25,7 +25,7 @@ The app is designed to be user-friendly and aims to provide a seamless experienc
 
 ## Live Site
 
-The live site for NutriGoalTracker can be accessed at [https://your-live-site-url.com](https://your-live-site-url.com).
+The live site for NutriGoalTracker can be accessed at (https://nutri-goal-tracker.vercel.app/).
 
 ## Usage Instructions
 
